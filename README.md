@@ -1,4 +1,4 @@
-An example of text with **bold** and *italic* fonts.  
+  
 
 # Tennis Match Tracker
 _A personal prject for CPSC 210_
