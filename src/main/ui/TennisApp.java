@@ -2,84 +2,77 @@ package ui;
 
 import java.util.Scanner;
 
+import model.Match;
 import model.MatchTracker;
+import model.Player;
 
-//Tennis console application, Lets users add/view matches/stats
+//Tennis console application
 public class TennisApp {
-    private Scanner input = new Scanner(System.in);
-    private MatchTracker tracker = new MatchTracker();
+    private Scanner input;
+    private MatchTracker tracker;
 
-//EFFECTS: runs the tennis app
+    // EFFECTS: runs the tennis app
     public void runApp() {
+        input = new Scanner(System.in);
+        tracker = new MatchTracker();
+        boolean isRunning = true;
+
         System.out.println("Welcome to Tennis Match Tracker!");
 
-        boolean running = true;
-
-        while (running) {
-            System.out.println();
-            System.out.println("1. Add a match");
-            System.out.println("2. Show all matches");
-            System.out.println("3. Show player stats");
-            System.out.println("4. Quit");
-
-            System.out.print("Enter choice: ");
-            int choice = readInt();
+        while (isRunning) {
+            displayMenu();
+            int choice = input.nextInt();
+            input.nextLine();
 
             if (choice == 1) {
                 addMatch();
             } else if (choice == 2) {
-                showMatches();
+                viewMatches();
             } else if (choice == 3) {
-                showStats();
-            } else if (choice == 4) {
-                System.out.println("Goodbye!");
-                running = false;
+                isRunning = false;
             } else {
-                System.out.println("Not a valid choice!");
+                System.out.println("Invalid choice!");
             }
         }
-    }
-    
 
-
-// show all matches
-    private void showMatches() {
+        System.out.println("Goodbye");
     }
 
-// show player stats
-    private void showStats() {
+    // EFFECTS: displays the main menu options
+    private void displayMenu() {
+        System.out.println("\nSelect an option:");
+        System.out.println("1. Add Match");
+        System.out.println("2. View All Matches");
+        System.out.println("3. Quit");
+        System.out.print("Enter choice: ");
     }
 
+    // EFFECTS: adds a new match to tracker
+    private void addMatch() {
+        System.out.print("Enter Player 1 name: ");
+        String p1Name = input.nextLine();
+        System.out.print("Enter Player 2 name: ");
+        String p2Name = input.nextLine();
+        System.out.print("Enter date: ");
+        String date = input.nextLine();
+        System.out.print("Enter score: ");
+        String score = input.nextLine();
 
+        Player p1 = new Player(p1Name);
+        Player p2 = new Player(p2Name);
+        Match m = new Match(p1, p2, date, score);
 
+        tracker.addMatch(m);
+        System.out.println("Match added successfully");
+    }
 
-// EFFECTS: reads an integer
-// read an integer from user
-    private int readInt() {
-        while (true) {
-            try {
-                return Integer.parseInt(input.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.print("Enter a number: ");
-            }
+    // EFFECTS: displays all matches in the tracker
+    private void viewMatches() {
+        System.out.println("\nAll recorded matches:");
+        for (Match m : tracker.getAllMatches()) {
+            System.out.println(m.getDate() + ": " + m.getPlayer1().getName()
+                    + " vs " + m.getPlayer2().getName() + " (" + m.getScore() + ")");
         }
-    } 
-
-// EFFECTS: reads a line of text
-    private String readText(String msg) {
     }
 
-
-
-
-
-
-
- // EFFECTS: adds a new match to tracker
-private void addMatch() {
-
-
-}
-
-    
 }
