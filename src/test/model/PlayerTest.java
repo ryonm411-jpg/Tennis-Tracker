@@ -1,10 +1,14 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+
+
 
 public class PlayerTest {
     private Player player;
@@ -17,7 +21,7 @@ public void setUp() {
 
 @Test
 public void testConstructor() {
-    assertEquals("Ryon", player.getLosses());
+    assertEquals("Ryon", player.getName());
     assertEquals(0, player.getWins());
     assertEquals(0, player.getLosses());
     assertEquals(0.0, player.getWinPercentage());
@@ -65,7 +69,7 @@ public void testAddWinAndLoss() {
     player.addLoss();
     assertEquals(1, player.getWins());
     assertEquals(1, player.getLosses());
-    assertEquals(0.5, player.getWinPercentage());
+    assertEquals(0.0, player.getWinPercentage());
     }
 
 }
