@@ -40,7 +40,6 @@ public class Player {
         return winPer;
     }
     
-    public 
     
     
     

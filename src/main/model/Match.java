@@ -16,7 +16,7 @@ public class Match {
 // score, winner, and per-player stats.
 
 
-    public Match(Player player1, Player player2, String date, String Score) {
+    public Match(Player player1, Player player2, String date, String score) {
         this.player1 = player1;
         this.player2 = player2;
 
