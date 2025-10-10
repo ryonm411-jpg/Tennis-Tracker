@@ -34,11 +34,11 @@ public class Player {
     //    EFFECTS: returns players win percentage
     public double getWinPercentage() {
         int totalGames = wins + losses;
-        double winPer = wins / totalGames;
-        if (totalGames == 0)
-        return 0;
-        return winPer;
+        if (totalGames == 0) {
+        return 0.0;
     }
+    return (double) wins / totalGames;
+}
     
     
     
