@@ -6,8 +6,8 @@ import model.Match;
 import model.MatchTracker;
 import model.Player;
 
-//Tennis console application
-public class TennisApp {
+    //Tennis console application
+    public class TennisApp {
     private Scanner input;
     private MatchTracker tracker;
 
@@ -26,11 +26,20 @@ public class TennisApp {
 
             if (choice == 1) {
                 addMatch();
-            } else if (choice == 2) {
+            } 
+            else if (choice == 2) {
                 viewMatches();
-            } else if (choice == 3) {
+            }
+            else if (choice == 3) {
+                addMultipleMatches();
+            }
+            else if (choice == 4) {
+                viewMatchesForPlayer();
+            }
+            else if (choice == 5) {
                 isRunning = false;
-            } else {
+            } 
+            else {
                 System.out.println("Invalid choice!");
             }
         }
@@ -43,7 +52,9 @@ public class TennisApp {
         System.out.println("\nSelect an option:");
         System.out.println("1. Add Match");
         System.out.println("2. View All Matches");
-        System.out.println("3. Quit");
+        System.out.println("3. Add Multiple Matches");
+        System.out.println("4. View Matches for a Player");
+        System.out.println("5. Quit");
         System.out.print("Enter choice: ");
     }
 
@@ -72,6 +83,36 @@ public class TennisApp {
         for (Match m : tracker.getAllMatches()) {
             System.out.println(m.getDate() + ": " + m.getPlayer1().getName()
                     + " vs " + m.getPlayer2().getName() + " (" + m.getScore() + ")");
+        }
+    }
+
+    
+    //EFFECTS: adds multi matches
+    private void addMultipleMatches() {
+        boolean adding = true;
+        while (adding) {
+            addMatch(); 
+            System.out.print("Add another match? (y/n): ");
+            String choice = input.nextLine().toLowerCase();
+            if (!choice.equals("y")) {
+                adding = false;
+            }
+        }
+    }
+
+    
+    //EFFEECTS: view the matches of a specific player
+    private void viewMatchesForPlayer() {
+        System.out.print("Enter player name: ");
+        String name = input.nextLine();
+        System.out.println("\nMatches for " + name + ":");
+        for (Match m : tracker.getAllMatches()) {
+            if (m.getPlayer1().getName().equalsIgnoreCase(name)
+                    || m.getPlayer2().getName().equalsIgnoreCase(name)) {
+                System.out.println(m.getDate() + ": " + m.getPlayer1().getName()
+                        + " vs " + m.getPlayer2().getName()
+                        + " (" + m.getScore() + ")");
+            }
         }
     }
 
