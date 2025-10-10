@@ -10,11 +10,9 @@ public class Match {
     private int doubleFaults;
     private int unforcedErrors;
 
-
-// REQUIRES: player1 and p2
-// EFFECTS: constructs a Match with given participants, date, 
-// score, winner, and per-player stats.
-
+    // REQUIRES: player1 and p2
+    // EFFECTS: constructs a Match with given participants, date,
+    // score, winner, and per-player stats.
 
     public Match(Player player1, Player player2, String date, String score) {
         this.player1 = player1;
@@ -29,19 +27,23 @@ public class Match {
 
     }
 
-    public Player getPlayer1() { 
-        return player1; 
+    public Player getPlayer1() {
+        return player1;
     }
-    public Player getPlayer2() { 
-        return player2; 
+
+    public Player getPlayer2() {
+        return player2;
     }
-    public String getDate() { 
-        return date; 
+
+    public String getDate() {
+        return date;
     }
-    public String getScore() { 
-        return score; 
+
+    public String getScore() {
+        return score;
     }
-     public int getAces() {
+
+    public int getAces() {
         return aces;
     }
 

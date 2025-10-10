@@ -6,8 +6,8 @@ import model.Match;
 import model.MatchTracker;
 import model.Player;
 
-    //Tennis console application
-    public class TennisApp {
+//Tennis console application
+public class TennisApp {
     private Scanner input;
     private MatchTracker tracker;
 
@@ -26,20 +26,15 @@ import model.Player;
 
             if (choice == 1) {
                 addMatch();
-            } 
-            else if (choice == 2) {
+            } else if (choice == 2) {
                 viewMatches();
-            }
-            else if (choice == 3) {
+            } else if (choice == 3) {
                 addMultipleMatches();
-            }
-            else if (choice == 4) {
+            } else if (choice == 4) {
                 viewMatchesForPlayer();
-            }
-            else if (choice == 5) {
+            } else if (choice == 5) {
                 isRunning = false;
-            } 
-            else {
+            } else {
                 System.out.println("Invalid choice!");
             }
         }
@@ -86,12 +81,11 @@ import model.Player;
         }
     }
 
-    
-    //EFFECTS: adds multi matches
+    // EFFECTS: adds multi matches
     private void addMultipleMatches() {
         boolean adding = true;
         while (adding) {
-            addMatch(); 
+            addMatch();
             System.out.print("Add another match? (y/n): ");
             String choice = input.nextLine().toLowerCase();
             if (!choice.equals("y")) {
@@ -100,8 +94,7 @@ import model.Player;
         }
     }
 
-    
-    //EFFEECTS: view the matches of a specific player
+    // EFFEECTS: view the matches of a specific player
     private void viewMatchesForPlayer() {
         System.out.print("Enter player name: ");
         String name = input.nextLine();
