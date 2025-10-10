@@ -9,8 +9,8 @@ public class MatchTracker {
     
 // Effects: constructs an empty tracker of matches    
     
-    public MatchTracker() {
-        matches = new ArrayList<>();
+public MatchTracker() {
+    matches = new ArrayList<>();
     }
 
 // MODIFIES: this    
@@ -28,7 +28,7 @@ public List<Match> getAllMatches() {
 
 // EFFECTS: return the num of recorded matches 
 public int getMatchCount() {
-        return matches.size();
+    return matches.size();
     }
 
 }
