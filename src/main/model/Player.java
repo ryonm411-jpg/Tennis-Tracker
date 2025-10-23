@@ -12,7 +12,12 @@ public class Player {
 
     // EFFECTS: returns the JSON representation of the player
     public JSONObject toJson() {
-        return null;
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("wins", wins);
+        json.put("losses", losses);
+
+        return json;
     }
 
     // REQUIRES: a name
