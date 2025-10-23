@@ -1,9 +1,12 @@
 package model;
 
+
+
+// Represents a tennis match
 public class Match {
     // match basics
-    private Player player1;
-    private Player player2;
+    private String player1;
+    private String player2;
     private String date;
     private String score;
     private int aces;
@@ -11,27 +14,25 @@ public class Match {
     private int unforcedErrors;
 
     // REQUIRES: player1 and p2
-    // EFFECTS: constructs a Match with given participants, date,
-    // score, winner, and per-player stats.
-
-    public Match(Player player1, Player player2, String date, String score) {
-        this.player1 = player1;
-        this.player2 = player2;
-
+    // EFFECTS: constructs a Match with player1name, player2Nmae, date,
+    // score, aces, doubleFaults, unforcedErrors.
+    public Match(String player1Name, String player2Name, String date, String score,
+            int aces, int doubleFaults, int unforcedErrors) {
+        this.player1 = player1Name;
+        this.player2 = player2Name;
         this.date = date;
         this.score = score;
-
-        this.aces = 0;
-        this.doubleFaults = 0;
-        this.unforcedErrors = 0;
+        this.aces = aces;
+        this.doubleFaults = doubleFaults;
+        this.unforcedErrors = unforcedErrors;
 
     }
 
-    public Player getPlayer1() {
+    public String getPlayer1Name() {
         return player1;
     }
 
-    public Player getPlayer2() {
+    public String getPlayer2Name() {
         return player2;
     }
 
