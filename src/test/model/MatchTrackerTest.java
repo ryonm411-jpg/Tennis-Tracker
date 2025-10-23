@@ -9,21 +9,18 @@ import org.junit.jupiter.api.Test;
 public class MatchTrackerTest {
 
     private MatchTracker tracker;
-    private Player p1;
-    private Player p2;
     private Match match;
 
     @BeforeEach
     public void setUp() {
         tracker = new MatchTracker();
-        p1 = new Player("Ryon");
-        p2 = new Player("Jeff");
-        match = new Match(p1, p2, "2025/10/02", "7-6, 6-4");
+        match = new Match("Ryon", "Jeff", "2025/10/02", "7-6, 6-4", 3, 1, 4);
     }
 
     @Test
     public void testConstructor() {
         assertEquals(0, tracker.getMatchCount());
+        assertTrue(tracker.getAllMatches().isEmpty());
     }
 
     @Test
@@ -32,19 +29,15 @@ public class MatchTrackerTest {
         assertEquals(1, tracker.getMatchCount());
         assertTrue(tracker.getAllMatches().contains(match));
     }
-
-    @Test
-    public void testEmptyTrackerInitially() {
-        assertEquals(0, tracker.getMatchCount());
-        assertTrue(tracker.getAllMatches().isEmpty());
-    }
-
+    
     @Test
     public void testMultipleMatchesAdded() {
-        Match m2 = new Match(p1, p2, "2025/10/03", "6-2, 6-1");
+        Match m2 = new Match("Roger", "Nadal", "2025/10/03", "6-2, 6-1", 2, 0, 1);
         tracker.addMatch(match);
         tracker.addMatch(m2);
         assertEquals(2, tracker.getMatchCount());
+        assertTrue(tracker.getAllMatches().contains(match));
+        assertTrue(tracker.getAllMatches().contains(m2));
     }
 
 }
