@@ -27,10 +27,7 @@ public class Match {
 
     }
    
-    //EFECTS: returns a new Match built from JSON
-    public static Match fromJson(JSONObject json) {
-        return null;
-    }
+    
     // EFFECTS: returns JSON version of match
     public JSONObject toJson() {
          return null; }

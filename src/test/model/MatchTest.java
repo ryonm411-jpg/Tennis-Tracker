@@ -44,17 +44,9 @@ public class MatchTest {
     }
 
     @Test
-    void testFromJsonAndToJson() {
-        JSONObject j = new JSONObject();
-        j.put("player1", "Ryon");
-        j.put("player2", "Jeff");
-        j.put("date", "2025/10/01");
-        j.put("score", "6-4, 6-3");
-        j.put("aces", 5);
-        j.put("doubleFaults", 2);
-        j.put("unforcedErrors", 1);
+    void testToJson() {
 
-        Match m = Match.fromJson(j);
+        Match m = new Match("Ryon", "Jeff", "2025/10/01", "6-4, 6-3", 5, 2, 1);
         assertEquals("Ryon", m.getPlayer1Name());
         assertEquals("Jeff", m.getPlayer2Name());
         assertEquals("2025/10/01", m.getDate());

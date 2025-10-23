@@ -11,7 +11,7 @@ public class PlayerTest {
 
     @BeforeEach
     public void setUp() {
-        player = new Player("Ryon");
+        player = new Player("Ryon", 0, 0);
 
     }
 
@@ -68,16 +68,9 @@ public class PlayerTest {
     }
 
     @Test
-    void testFromJsonAndToJson() {
-        JSONObject json = new JSONObject();
-        json.put("name", "Ryon");
-        json.put("wins", 3);
-        json.put("losses", 1);
+    void testToJson() {
 
-        Player p = Player.fromJson(json);
-        assertEquals("Ryon", p.getName());
-        assertEquals(3, p.getWins());
-        assertEquals(1, p.getLosses());
+        Player p = new Player("Ryon", 3, 1);
 
         JSONObject out = p.toJson();
         assertEquals("Ryon", out.getString("name"));
