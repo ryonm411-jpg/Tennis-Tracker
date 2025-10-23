@@ -30,7 +30,16 @@ public class Match {
     
     // EFFECTS: returns JSON version of match
     public JSONObject toJson() {
-         return null; }
+        JSONObject json = new JSONObject();
+        json.put("player1", player1);
+        json.put("player2", player2);
+        json.put("date", date);
+        json.put("score", score);
+        json.put("aces", aces);
+        json.put("doubleFaults", doubleFaults);
+        json.put("unforcedErrors", unforcedErrors);
+        return json;
+     }
 
 
 
