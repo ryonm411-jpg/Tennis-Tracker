@@ -1,6 +1,6 @@
 package model;
 
-
+import org.json.JSONObject;
 
 // Represents a tennis match
 public class Match {
@@ -13,7 +13,6 @@ public class Match {
     private int doubleFaults;
     private int unforcedErrors;
 
-    // REQUIRES: player1 and p2
     // EFFECTS: constructs a Match with player1name, player2Nmae, date,
     // score, aces, doubleFaults, unforcedErrors.
     public Match(String player1Name, String player2Name, String date, String score,
@@ -27,6 +26,17 @@ public class Match {
         this.unforcedErrors = unforcedErrors;
 
     }
+   
+    //EFECTS: returns a new Match built from JSON
+    public static Match fromJson(JSONObject json) {
+        return null;
+    }
+    // EFFECTS: returns JSON version of match
+    public JSONObject toJson() {
+         return null; }
+
+
+
 
     public String getPlayer1Name() {
         return player1;
