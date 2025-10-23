@@ -1,9 +1,20 @@
 package model;
 
+import org.json.JSONObject;
+
+import model.persistence.Writable;
+
+// Represents a tennis player
 public class Player {
     private final String name;
     private int wins;
     private int losses;
+    
+    //EFFECTS: constructs Player from given JSON object
+    
+    public static Player fromJson(JSONObject json) {
+        return null;
+    }
 
     // REQUIRES: a name
     // EFFECTS: constructs a player with given name, zero wins/losses
@@ -49,4 +60,7 @@ public class Player {
     public int getLosses() {
         return losses;
     }
+
+   
+
 }
