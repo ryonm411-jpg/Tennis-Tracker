@@ -11,8 +11,12 @@ public class Player {
     private int losses;
     
     //EFFECTS: constructs Player from given JSON object
-    
     public static Player fromJson(JSONObject json) {
+        return null;
+    }
+
+    // EFFECTS: returns the JSON representation of the player
+    public JSONObject toJson() {
         return null;
     }
 
