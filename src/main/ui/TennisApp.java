@@ -10,12 +10,13 @@ import model.Player;
 public class TennisApp {
     private Scanner input;
     private MatchTracker tracker;
+    private boolean isRunning;
 
     // EFFECTS: runs the tennis app
     public void runApp() {
         input = new Scanner(System.in);
         tracker = new MatchTracker();
-        boolean isRunning = true;
+        isRunning = true;
 
         System.out.println("Welcome to Tennis Match Tracker!");
 
@@ -64,9 +65,8 @@ public class TennisApp {
         System.out.print("Enter score: ");
         String score = input.nextLine();
 
-        Player p1 = new Player(p1Name);
-        Player p2 = new Player(p2Name);
-        Match m = new Match(p1, p2, date, score);
+        
+        Match m = new Match(p1Name, p2Name, date, score, 0, 0, 0);
 
         tracker.addMatch(m);
         System.out.println("Match added successfully");
@@ -76,8 +76,8 @@ public class TennisApp {
     private void viewMatches() {
         System.out.println("\nAll recorded matches:");
         for (Match m : tracker.getAllMatches()) {
-            System.out.println(m.getDate() + ": " + m.getPlayer1().getName()
-                    + " vs " + m.getPlayer2().getName() + " (" + m.getScore() + ")");
+            System.out.println(m.getDate() + ": " + m.getPlayer1Name()
+                    + " vs " + m.getPlayer2Name() + " (" + m.getScore() + ")");
         }
     }
 
@@ -100,10 +100,10 @@ public class TennisApp {
         String name = input.nextLine();
         System.out.println("\nMatches for " + name + ":");
         for (Match m : tracker.getAllMatches()) {
-            if (m.getPlayer1().getName().equalsIgnoreCase(name)
-                    || m.getPlayer2().getName().equalsIgnoreCase(name)) {
-                System.out.println(m.getDate() + ": " + m.getPlayer1().getName()
-                        + " vs " + m.getPlayer2().getName()
+            if (m.getPlayer1Name().equalsIgnoreCase(name)
+                    || m.getPlayer2Name().equalsIgnoreCase(name)) {
+                System.out.println(m.getDate() + ": " + m.getPlayer1Name()
+                        + " vs " + m.getPlayer2Name()
                         + " (" + m.getScore() + ")");
             }
         }
