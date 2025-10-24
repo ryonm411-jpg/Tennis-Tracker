@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import model.persistence.Writable;
 
+// Represents all tennis data of matches and players
 public class TennisData implements Writable {
     private List<Player> players;
     private MatchTracker matchTracker;
@@ -26,7 +27,7 @@ public class TennisData implements Writable {
 }
 
     // MODIFIES: this
-    // EFFECTS: adds thingy to this workroom
+    // EFFECTS: adds player to this tennisdata
     public void addPlayer(Player player) {
         players.add(player);
     }
