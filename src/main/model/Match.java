@@ -31,6 +31,7 @@ public class Match implements Writable {
    
     
     // EFFECTS: returns JSON version of match
+    @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("player1", player1);
