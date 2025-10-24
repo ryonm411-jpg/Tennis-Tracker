@@ -28,5 +28,5 @@ I am personally interested in **tennis** I think I would find it motivating to d
 - As a user, I want to be able to be able to view player performaces, such as thier total wins/losses, thier win percentage.
 
 ## User Stories for Phase 2
-- As a user, I want to be able to save all recorded tennis matches to a file, inorder to keep track of them after I close the application
-- AS a user, I want to be able to load prev saved matches from a file so I can continue from where I left off.
+- As a user, I want to be able to save all recorded tennis matches and player data to a JSON file, inorder to keep track of them after I close the application
+- AS a user, I want to be able to load prev saved matches and player data from a JSON file so I can continue from where I left off.
