@@ -2,7 +2,8 @@ package model;
 
 import org.json.JSONObject;
 
-import model.persistence.Writable;
+import persistence.Writable;
+
 
 
 // Represents a tennis player

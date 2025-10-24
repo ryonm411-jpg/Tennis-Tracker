@@ -6,7 +6,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import model.persistence.Writable;
+import persistence.Writable;
+
 
 // Represents all tennis data of matches and players
 public class TennisData implements Writable {
@@ -67,5 +68,9 @@ public class TennisData implements Writable {
         }
         return jsonArray;
     }
+
+
+
+
 
 }
