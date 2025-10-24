@@ -1,11 +1,9 @@
 package persistence;
 
-import model.TennisData;
-
 import org.json.JSONObject;
 
-
-import java.io.*;
+import model.TennisData;
+import java.io.*; 
 
 // Represents a writer that saves tennis data to JSON file
 public class JsonWriter {
