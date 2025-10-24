@@ -2,8 +2,10 @@ package model;
 
 import org.json.JSONObject;
 
+import model.persistence.Writable;
+
 // Represents a tennis match
-public class Match {
+public class Match implements Writable {
     // match basics
     private String player1;
     private String player2;

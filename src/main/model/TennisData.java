@@ -2,7 +2,12 @@ package model;
 
 import java.util.List;
 
-public class TennisData {
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import model.persistence.Writable;
+
+public class TennisData implements Writable {
     private List<Player> players;
     private MatchTracker matchTracker;
 
@@ -14,12 +19,40 @@ public class TennisData {
 
     }
 
-    public List<Player> gerPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
     public MatchTracker getMatchTracker() {
         return matchTracker;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("players", playersToJson());
+        json.put("matches", matchesToJson());
+        return json;
+    }
+
+    // EFFECTS: returns players in this tennis data as a JSON array
+    private JSONArray playersToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Player p : players) {
+            jsonArray.put(p.toJson());
+        }
+        return jsonArray;
+    }
+
+    // EFFECTS: returns matches in this tennis data as a JSON array
+    private JSONArray matchesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Match m : matchTracker.getAllMatches()) {
+            jsonArray.put(m.toJson());
+        }
+        return jsonArray;
     }
 
 }
