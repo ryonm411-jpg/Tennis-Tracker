@@ -1,11 +1,13 @@
 {
     "java.project.sourcePaths": [
-        "src/main",
-        "src/test"
+        "src\\main",
+        "src\\test"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "lib\\json-20250517.jar",
+        "c:\\Users\\Ryon\\Downloads\\210 project\\n1k6o-1\\lib\\json-20250517.jar",
+        "c:\\Users\\Ryon\\Downloads\\210 project\\n1k6o-1\\lib\\junit-platform-console-standalone-1.10.2.jar"
     ],
     "java.checkstyle.configuration": "${workspaceFolder}/checkstyle.xml",
     "java.checkstyle.version": "10.2"
