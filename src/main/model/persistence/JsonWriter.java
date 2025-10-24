@@ -1,8 +1,7 @@
 package model.persistence;
 
 import model.TennisData;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+
 import org.json.JSONObject;
 
 
@@ -23,20 +22,25 @@ public class JsonWriter {
     // EFFECTS: opens writer; throws FileNotFoundException if destination file cannot
     // be opened for writing
     public void open() throws FileNotFoundException {
-    
+        writer = new PrintWriter(new File(destination));
     }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of TennisData to file
-    public void write(TennisData data) {
-        
+    public void write(TennisData td) {
+        JSONObject json = td.toJson();
+        saveToFile(json.toString(TAB));
     }
 
     // MODIFIES: this
     // EFFECTS: closes writer
     public void close() {
-        
+        writer.close();
     }
 
-   
+   // MODIFIES: this
+    // EFFECTS: writes string to file
+    private void saveToFile(String json) {
+        writer.print(json);
+    }
 }
