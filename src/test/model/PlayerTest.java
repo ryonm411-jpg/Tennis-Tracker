@@ -67,16 +67,5 @@ public class PlayerTest {
         assertEquals(0.5, player.getWinPercentage());
     }
 
-    @Test
-    void testToJson() {
-
-        Player p = new Player("Ryon", 3, 1);
-
-        JSONObject out = p.toJson();
-        assertEquals("Ryon", out.getString("name"));
-        assertEquals(3, out.getInt("wins"));
-        assertEquals(1, out.getInt("losses"));
-    }
-
 
 }

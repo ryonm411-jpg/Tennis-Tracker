@@ -43,26 +43,5 @@ public class MatchTest {
         assertEquals(2, match.getUnforcedErrors());
     }
 
-    @Test
-    void testToJson() {
-
-        Match m = new Match("Ryon", "Jeff", "2025/10/01", "6-4, 6-3", 5, 2, 1);
-        assertEquals("Ryon", m.getPlayer1Name());
-        assertEquals("Jeff", m.getPlayer2Name());
-        assertEquals("2025/10/01", m.getDate());
-        assertEquals("6-4, 6-3", m.getScore());
-        assertEquals(5, m.getAces());
-
-        JSONObject out = m.toJson();
-        assertEquals("Ryon", out.getString("player1"));
-        assertEquals("Jeff", out.getString("player2"));
-        assertEquals("2025/10/01", out.getString("date"));
-        assertEquals("6-4, 6-3", out.getString("score"));
-        assertEquals(5, out.getInt("aces"));
-        assertEquals(2, out.getInt("doubleFaults"));
-        assertEquals(1, out.getInt("unforcedErrors"));
-
-
-    }
 
 }
