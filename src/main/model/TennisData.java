@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -17,6 +18,17 @@ public class TennisData implements Writable {
         this.players = players;
         this.matchTracker = matchTracker;
 
+    }
+    // EFFECTS: constructs tennisdata with empty players and matchtracker
+    public TennisData() {
+    this.players = new ArrayList<>();
+    this.matchTracker = new MatchTracker();
+}
+
+    // MODIFIES: this
+    // EFFECTS: adds thingy to this workroom
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 
     public List<Player> getPlayers() {
