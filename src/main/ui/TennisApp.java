@@ -34,9 +34,9 @@ public class TennisApp {
         String loadChoice = input.nextLine();
 
         if (loadChoice.equalsIgnoreCase("y")) {
-            loadData(); 
+            loadData();
+        }
 
-        
         while (isRunning) {
             displayMenu();
             int choice = input.nextInt();
@@ -58,7 +58,7 @@ public class TennisApp {
             }
         }
 
-        System.out.println("Goodbye!");}
+        System.out.println("Goodbye!");
     }
 
     // EFFECTS: displays the main menu options
