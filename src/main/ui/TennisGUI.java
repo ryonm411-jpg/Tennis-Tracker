@@ -144,6 +144,75 @@ public class TennisGUI extends JFrame implements ActionListener {
         System.exit(0);
     }
 
-    
-}
+    // REQUIRES: none
+    // MODIFIES: this
+    // EFFECTS: handles action events from buttons and menu items
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        
+        if (command.equals("addMatch")) {
+            addMatch();
+        } else if (command.equals("viewPlayer")) {
+            viewMatchesForPlayer();
+        } else if (command.equals("load")) {
+            loadData();
+        } else if (command.equals("save")) {
+            saveData();
+        } else if (command.equals("quit")) {
+            promptSaveOnExit();
+        }
+    }
 
+    // REQUIRES: none
+    // MODIFIES: this
+    // EFFECTS: opens dialog to add a new match
+    private void addMatch() {
+        JDialog dialog = new JDialog(this, "Add Match", true);
+        dialog.setLayout(new GridLayout(5, 2));
+        
+        JTextField p1Field = new JTextField();
+        JTextField p2Field = new JTextField();
+        JTextField dateField = new JTextField();
+        JTextField scoreField = new JTextField();
+        
+        dialog.add(new JLabel("Player 1:"));
+        dialog.add(p1Field);
+        dialog.add(new JLabel("Player 2:"));
+        dialog.add(p2Field);
+        dialog.add(new JLabel("Date:"));
+        dialog.add(dateField);
+        dialog.add(new JLabel("Score:"));
+        dialog.add(scoreField);
+        
+        JButton okBtn = new JButton("OK");
+        JButton cancelBtn = new JButton("Cancel");
+        
+        okBtn.addActionListener(e -> {
+            String p1 = p1Field.getText().trim();
+            String p2 = p2Field.getText().trim();
+            String date = dateField.getText().trim();
+            String score = scoreField.getText().trim();
+            
+            if (!p1.isEmpty() && !p2.isEmpty() && !date.isEmpty() && !score.isEmpty()) {
+                Match match = new Match(p1, p2, date, score, 0, 0, 0);
+                tennisData.getMatchTracker().addMatch(match);
+                matchListPanel.refresh();
+                statsPanel.repaint();
+                dialog.dispose();
+                JOptionPane.showMessageDialog(this, "Match added successfully!");
+            } else {
+                JOptionPane.showMessageDialog(dialog, "Please fill in all fields.");
+            }
+        });
+        
+        cancelBtn.addActionListener(e -> dialog.dispose());
+        
+        dialog.add(okBtn);
+        dialog.add(cancelBtn);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+}
