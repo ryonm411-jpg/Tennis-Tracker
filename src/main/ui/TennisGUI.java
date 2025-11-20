@@ -215,4 +215,76 @@ public class TennisGUI extends JFrame implements ActionListener {
         dialog.setVisible(true);
     }
 
+    // REQUIRES: none
+    // MODIFIES: none
+    // EFFECTS: shows dialog to filter matches by player name
+    private void viewMatchesForPlayer() {
+        String playerName = JOptionPane.showInputDialog(this, "Enter player name:");
+        
+        if (playerName != null && !playerName.trim().isEmpty()) {
+            StringBuilder matches = new StringBuilder();
+            boolean found = false;
+            
+            for (Match m : tennisData.getMatchTracker().getAllMatches()) {
+                if (m.getPlayer1Name().equalsIgnoreCase(playerName.trim())
+                        || m.getPlayer2Name().equalsIgnoreCase(playerName.trim())) {
+                    matches.append(m.getDate()).append(": ")
+                           .append(m.getPlayer1Name()).append(" vs ")
+                           .append(m.getPlayer2Name()).append(" (")
+                           .append(m.getScore()).append(")\n");
+                    found = true;
+                }
+            }
+            
+            if (found) {
+                JTextArea textArea = new JTextArea(matches.toString());
+                textArea.setEditable(false);
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                scrollPane.setPreferredSize(new Dimension(400, 300));
+                JOptionPane.showMessageDialog(this, scrollPane,
+                        "Matches for " + playerName, JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "No matches found for " + playerName);
+            }
+        }
+    }
+
+    // REQUIRES: jsonReader is initialized
+    // MODIFIES: this
+    // EFFECTS: loads tennis data from JSON file
+    private void loadData() {
+        try {
+            tennisData = jsonReader.read();
+            matchListPanel.setTennisData(tennisData);
+            matchListPanel.refresh();
+            statsPanel.setTennisData(tennisData);
+            statsPanel.repaint();
+            JOptionPane.showMessageDialog(this, "Loaded data from " + JSON_STORE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+    // REQUIRES: jsonWriter is initialized
+    // MODIFIES: this
+    // EFFECTS: saves tennis data to JSON file
+    private void saveData() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(tennisData);
+            jsonWriter.close();
+            JOptionPane.showMessageDialog(this, "Saved matches to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // REQUIRES: none
+    // MODIFIES: none
+    // EFFECTS: starts the GUI application
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new TennisGUI());
+    }
 }
+
+
