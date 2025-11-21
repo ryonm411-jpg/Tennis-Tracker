@@ -36,8 +36,21 @@ public class StatsPanel extends JPanel {
         for (Match m : tennisData.getMatchTracker().getAllMatches()) {
             String p1 = m.getPlayer1Name();
             String p2 = m.getPlayer2Name();
-            playerMatchCount.put(p1, playerMatchCount.getOrDefault(p1, 0) + 1);
-            playerMatchCount.put(p2, playerMatchCount.getOrDefault(p2, 0) + 1);
+
+            if (playerMatchCount.containsKey(p1)) {
+                int currentCount = playerMatchCount.get(p1);
+                playerMatchCount.put(p1, currentCount + 1);
+            } else {
+                playerMatchCount.put(p1, 1);
+            }
+
+            
+            if (playerMatchCount.containsKey(p2)) {
+                int currentCount = playerMatchCount.get(p2);
+                playerMatchCount.put(p2, currentCount + 1);
+            } else {
+                playerMatchCount.put(p2, 1);
+            }
         }
         
         if (playerMatchCount.isEmpty()) {
@@ -46,8 +59,17 @@ public class StatsPanel extends JPanel {
             return;
         }
         
-        int maxCount = playerMatchCount.values().stream()
-                .mapToInt(Integer::intValue).max().orElse(1);
+        
+        int maxCount = 0;
+        for (Integer count : playerMatchCount.values()) {
+            if (count > maxCount) {
+                maxCount = count;
+            }
+        }
+        
+        if (maxCount == 0) {
+            maxCount = 1;
+        }
         
         int barWidth = 60;
         int spacing = 20;
@@ -59,7 +81,8 @@ public class StatsPanel extends JPanel {
         for (Map.Entry<String, Integer> entry : playerMatchCount.entrySet()) {
             String player = entry.getKey();
             int count = entry.getValue();
-            int barHeight = (int) ((double) count / maxCount * maxBarHeight);
+            double percentage = (double) count / maxCount;
+            int barHeight = (int) (percentage * maxBarHeight);
             
             g.setColor(new Color(70, 130, 180));
             g.fillRect(xPos, startY - barHeight, barWidth, barHeight);
@@ -68,7 +91,12 @@ public class StatsPanel extends JPanel {
             g.drawRect(xPos, startY - barHeight, barWidth, barHeight);
             
             g.setFont(new Font("Arial", Font.PLAIN, 10));
-            String label = player.length() > 8 ? player.substring(0, 8) : player;
+            
+            String label = player;
+            if (player.length() > 8) {
+                label = player.substring(0, 8);
+            }
+            
             g.drawString(label, xPos, startY + 15);
             g.drawString(String.valueOf(count), xPos + barWidth / 2 - 5, startY - barHeight - 5);
             
@@ -87,4 +115,3 @@ public class StatsPanel extends JPanel {
         this.tennisData = tennisData;
     }
 }
-

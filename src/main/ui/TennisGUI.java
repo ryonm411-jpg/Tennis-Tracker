@@ -9,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -101,18 +99,12 @@ public class TennisGUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: sets up window properties
     private void setupWindow() {
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(800, 600));
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                promptSaveOnExit();
-            }
-        });
     }
 
     // REQUIRES: none
@@ -168,13 +160,13 @@ public class TennisGUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: opens dialog to add a new match
     private void addMatch() {
-        JDialog dialog = new JDialog(this, "Add Match", true);
+        final JDialog dialog = new JDialog(this, "Add Match", true);
         dialog.setLayout(new GridLayout(5, 2));
         
-        JTextField p1Field = new JTextField();
-        JTextField p2Field = new JTextField();
-        JTextField dateField = new JTextField();
-        JTextField scoreField = new JTextField();
+        final JTextField p1Field = new JTextField();
+        final JTextField p2Field = new JTextField();
+        final JTextField dateField = new JTextField();
+        final JTextField scoreField = new JTextField();
         
         dialog.add(new JLabel("Player 1:"));
         dialog.add(p1Field);
@@ -188,25 +180,33 @@ public class TennisGUI extends JFrame implements ActionListener {
         JButton okBtn = new JButton("OK");
         JButton cancelBtn = new JButton("Cancel");
         
-        okBtn.addActionListener(e -> {
-            String p1 = p1Field.getText().trim();
-            String p2 = p2Field.getText().trim();
-            String date = dateField.getText().trim();
-            String score = scoreField.getText().trim();
-            
-            if (!p1.isEmpty() && !p2.isEmpty() && !date.isEmpty() && !score.isEmpty()) {
-                Match match = new Match(p1, p2, date, score, 0, 0, 0);
-                tennisData.getMatchTracker().addMatch(match);
-                matchListPanel.refresh();
-                statsPanel.repaint();
-                dialog.dispose();
-                JOptionPane.showMessageDialog(this, "Match added successfully!");
-            } else {
-                JOptionPane.showMessageDialog(dialog, "Please fill in all fields.");
+        okBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String p1 = p1Field.getText();
+                String p2 = p2Field.getText();
+                String date = dateField.getText();
+                String score = scoreField.getText();
+                
+                if (!p1.isEmpty() && !p2.isEmpty() && !date.isEmpty() && !score.isEmpty()) {
+                    Match match = new Match(p1, p2, date, score, 0, 0, 0);
+                    tennisData.getMatchTracker().addMatch(match);
+                    matchListPanel.refresh();
+                    statsPanel.repaint();
+                    dialog.dispose();
+                    JOptionPane.showMessageDialog(TennisGUI.this, "Match added successfully!");
+                } else {
+                    JOptionPane.showMessageDialog(dialog, "Please fill in all fields.");
+                }
             }
         });
         
-        cancelBtn.addActionListener(e -> dialog.dispose());
+        cancelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+            }
+        });
         
         dialog.add(okBtn);
         dialog.add(cancelBtn);
@@ -221,13 +221,13 @@ public class TennisGUI extends JFrame implements ActionListener {
     private void viewMatchesForPlayer() {
         String playerName = JOptionPane.showInputDialog(this, "Enter player name:");
         
-        if (playerName != null && !playerName.trim().isEmpty()) {
+        if (playerName != null && !playerName.isEmpty()) {
             StringBuilder matches = new StringBuilder();
             boolean found = false;
             
             for (Match m : tennisData.getMatchTracker().getAllMatches()) {
-                if (m.getPlayer1Name().equalsIgnoreCase(playerName.trim())
-                        || m.getPlayer2Name().equalsIgnoreCase(playerName.trim())) {
+                if (m.getPlayer1Name().equalsIgnoreCase(playerName)
+                        || m.getPlayer2Name().equalsIgnoreCase(playerName)) {
                     matches.append(m.getDate()).append(": ")
                            .append(m.getPlayer1Name()).append(" vs ")
                            .append(m.getPlayer2Name()).append(" (")
@@ -283,8 +283,11 @@ public class TennisGUI extends JFrame implements ActionListener {
     // MODIFIES: none
     // EFFECTS: starts the GUI application
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new TennisGUI());
+        SwingUtilities.invokeLater(new Runnable() {
+            
+            public void run() {
+                new TennisGUI();
+            }
+        });
     }
 }
-
-
