@@ -12,25 +12,23 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class JsonWriterTest extends JsonTest {
 
     @Test
     void testWriterInvalidFile() {
         try {
             JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
-            
             writer.open();
             fail("IOException was expected");
         } catch (IOException e) {
-           
+            assertTrue(true);
         }
     }
 
     @Test
     void testWriterEmptyTennisData() {
         try {
-            TennisData td = new TennisData(); 
+            TennisData td = new TennisData();
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyTennisData.json");
             writer.open();
             writer.write(td);
@@ -49,31 +47,21 @@ public class JsonWriterTest extends JsonTest {
     void testWriterGeneralTennisData() {
         try {
             TennisData td = new TennisData();
-            Player p1 = new Player("Ryon", 3, 1);
-            Player p2 = new Player("Jeff", 2, 2);
-            td.getPlayers().add(p1); 
-            td.getPlayers().add(p2);
-
-            MatchTracker tracker = td.getMatchTracker();
-            tracker.addMatch(new Match("Ryon", "Jeff", "2025/10/01", "6-4, 6-3", 5, 2, 1));
+            td.getPlayers().add(new Player("Ryon", 3, 1));
+            td.getPlayers().add(new Player("Jeff", 2, 2));
+            td.getMatchTracker().addMatch(
+                    new Match("Ryon", "Jeff", "2025/10/01", "6-4, 6-3", 5, 2, 1));
 
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralTennisData.json");
             writer.open();
             writer.write(td);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralTennisData.json");
-            TennisData tdRead = reader.read();
-
-    
-            List<Player> players = tdRead.getPlayers();
-            assertEquals(2, players.size());
-            assertEquals("Ryon", players.get(0).getName());
-
-            MatchTracker trackerRead = tdRead.getMatchTracker();
-            assertEquals(1, trackerRead.getMatchCount());
-            List<Match> matches = trackerRead.getAllMatches();
-            checkMatch("Ryon", "Jeff", "2025/10/01", "6-4, 6-3", 5, 2, 1, matches.get(0));
+            TennisData tdRead = new JsonReader("./data/testWriterGeneralTennisData.json").read();
+            assertEquals(2, tdRead.getPlayers().size());
+            assertEquals("Ryon", tdRead.getPlayers().get(0).getName());
+            Match m = tdRead.getMatchTracker().getAllMatches().get(0);
+            checkMatch("Ryon", "Jeff", "2025/10/01", "6-4, 6-3", 5, 2, 1, m);
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }

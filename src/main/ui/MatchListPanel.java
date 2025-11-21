@@ -34,7 +34,7 @@ public class MatchListPanel extends JPanel {
         refresh();
     }
 
-    // REQUIRES: none
+    
     // MODIFIES: this
     // EFFECTS: updates the display with current matches
     public void refresh() {

@@ -25,43 +25,37 @@ public class TennisApp {
 
     // EFFECTS: runs the tennis app
     public void runApp() {
+        initApp();
+        askToLoadData();
+
+        boolean isRunning = true;
+        while (isRunning) {
+            displayMenu();
+            isRunning = processUserChoice();
+        }
+
+        System.out.println("Goodbye!");
+    }
+
+    // EFFECTS: initializes input scanner and empty tennis data
+    private void initApp() {
         input = new Scanner(System.in);
         tennisData = new TennisData();
-        boolean isRunning = true;
-
         System.out.println("Welcome to Tennis Match Tracker!");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: lets the user choose to load data
+    private void askToLoadData() {
         System.out.print("Would you like to load your previous data? (y/n): ");
         String loadChoice = input.nextLine();
 
         if (loadChoice.equalsIgnoreCase("y")) {
             loadData();
         }
-
-        while (isRunning) {
-            displayMenu();
-            int choice = input.nextInt();
-            input.nextLine();
-
-            if (choice == 1) {
-                addMatch();
-            } else if (choice == 2) {
-                viewMatches();
-            } else if (choice == 3) {
-                addMultipleMatches();
-            } else if (choice == 4) {
-                viewMatchesForPlayer();
-            } else if (choice == 5) {
-                saveBeforeExit();
-                isRunning = false;
-            } else {
-                System.out.println("Invalid choice!");
-            }
-        }
-
-        System.out.println("Goodbye!");
     }
 
-    // EFFECTS: displays the main menu options
+    // EFFECTS: displays the main menu
     private void displayMenu() {
         System.out.println("\nSelect an option:");
         System.out.println("1. Add Match");
@@ -70,6 +64,29 @@ public class TennisApp {
         System.out.println("4. View Matches for a Player");
         System.out.println("5. Save and Quit");
         System.out.print("Enter choice: ");
+    }
+
+    // EFFECTS: processes the user's menu choice
+    private boolean processUserChoice() {
+        int choice = input.nextInt();
+        input.nextLine(); // clear leftover newline
+
+        if (choice == 1) {
+            addMatch();
+        } else if (choice == 2) {
+            viewMatches();
+        } else if (choice == 3) {
+            addMultipleMatches();
+        } else if (choice == 4) {
+            viewMatchesForPlayer();
+        } else if (choice == 5) {
+            saveBeforeExit();
+            return false;
+        } else {
+            System.out.println("Invalid choice!");
+        }
+
+        return true;
     }
 
     // EFFECTS: adds a new match to tracker
@@ -83,12 +100,12 @@ public class TennisApp {
         System.out.print("Enter score: ");
         String score = input.nextLine();
 
-        Match m = new Match(p1Name, p2Name, date, score, 0, 0, 0);
-        tennisData.getMatchTracker().addMatch(m);
+        Match match = new Match(p1Name, p2Name, date, score, 0, 0, 0);
+        tennisData.getMatchTracker().addMatch(match);
         System.out.println("Match added successfully.");
     }
 
-    // EFFECTS: displays all matches in the tracker
+    // EFFECTS: displays all recorded matches
     private void viewMatches() {
         MatchTracker tracker = tennisData.getMatchTracker();
 
@@ -96,50 +113,54 @@ public class TennisApp {
             System.out.println("\nNo matches recorded yet.");
         } else {
             System.out.println("\nAll recorded matches:");
-            for (Match m : tracker.getAllMatches()) {
-                System.out.println(m.getDate() + ": " + m.getPlayer1Name()
-                        + " vs " + m.getPlayer2Name() + " (" + m.getScore() + ")");
+            for (Match match : tracker.getAllMatches()) {
+                System.out.println(match.getDate() + ": " + match.getPlayer1Name()
+                        + " vs " + match.getPlayer2Name()
+                        + " (" + match.getScore() + ")");
             }
         }
     }
 
-    // EFFECTS: repeatedly adds matches until user stops
+    // EFFECTS: repeatedly adds matches until the user stops
     private void addMultipleMatches() {
         boolean adding = true;
         while (adding) {
             addMatch();
             System.out.print("Add another match? (y/n): ");
             String choice = input.nextLine().toLowerCase();
+
             if (!choice.equals("y")) {
                 adding = false;
             }
         }
     }
 
-    // EFFECTS: view the matches of a specific player
+    // EFFECTS: displays matches for a specific player
     private void viewMatchesForPlayer() {
         System.out.print("Enter player name: ");
         String name = input.nextLine();
         System.out.println("\nMatches for " + name + ":");
-        boolean found = false;
 
+        boolean found = false;
         MatchTracker tracker = tennisData.getMatchTracker();
-        for (Match m : tracker.getAllMatches()) {
-            if (m.getPlayer1Name().equalsIgnoreCase(name)
-                    || m.getPlayer2Name().equalsIgnoreCase(name)) {
-                System.out.println(m.getDate() + ": " + m.getPlayer1Name()
-                        + " vs " + m.getPlayer2Name()
-                        + " (" + m.getScore() + ")");
+
+        for (Match match : tracker.getAllMatches()) {
+            if (match.getPlayer1Name().equalsIgnoreCase(name)
+                    || match.getPlayer2Name().equalsIgnoreCase(name)) {
+                System.out.println(match.getDate() + ": " + match.getPlayer1Name()
+                        + " vs " + match.getPlayer2Name()
+                        + " (" + match.getScore() + ")");
                 found = true;
             }
         }
+
         if (!found) {
             System.out.println("No matches found for this player.");
         }
     }
 
     // MODIFIES: this
-    // EFFECTS: loads tennis data (players and matches) from JSON file
+    // EFFECTS: loads tennis data from JSON file
     private void loadData() {
         try {
             tennisData = jsonReader.read();
@@ -150,10 +171,11 @@ public class TennisApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: saves tennis data to JSON file if user chooses yes
+    // EFFECTS: saves tennis data to JSON file if chosen
     private void saveBeforeExit() {
         System.out.print("Would you like to save your matches before quitting? (y/n): ");
         String choice = input.nextLine();
+
         if (choice.equalsIgnoreCase("y")) {
             try {
                 jsonWriter.open();

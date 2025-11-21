@@ -8,24 +8,22 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
-
 // Represents all tennis data of matches and players
 public class TennisData implements Writable {
     private List<Player> players;
     private MatchTracker matchTracker;
 
-
     // EFFECTS: constructs tennis data with given players and matches
     public TennisData(List<Player> players, MatchTracker matchTracker) {
         this.players = players;
         this.matchTracker = matchTracker;
-
     }
+
     // EFFECTS: constructs tennisdata with empty players and matchtracker
     public TennisData() {
-    this.players = new ArrayList<>();
-    this.matchTracker = new MatchTracker();
-}
+        this.players = new ArrayList<>();
+        this.matchTracker = new MatchTracker();
+    }
 
     // MODIFIES: this
     // EFFECTS: adds player to this tennisdata
@@ -68,9 +66,4 @@ public class TennisData implements Writable {
         }
         return jsonArray;
     }
-
-
-
-
-
 }

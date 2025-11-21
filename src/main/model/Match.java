@@ -4,7 +4,6 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
-
 // Represents a tennis match
 public class Match implements Writable {
     // match basics
@@ -29,8 +28,7 @@ public class Match implements Writable {
         this.unforcedErrors = unforcedErrors;
 
     }
-   
-    
+
     // EFFECTS: returns JSON version of match
     @Override
     public JSONObject toJson() {
@@ -43,10 +41,9 @@ public class Match implements Writable {
         json.put("doubleFaults", doubleFaults);
         json.put("unforcedErrors", unforcedErrors);
         return json;
-     }
+    }
 
-
-
+    
 
     public String getPlayer1Name() {
         return player1;

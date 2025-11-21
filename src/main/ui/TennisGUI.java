@@ -23,7 +23,6 @@ public class TennisGUI extends JFrame implements ActionListener {
     private MatchListPanel matchListPanel;
     private StatsPanel statsPanel;
 
-    // REQUIRES: none
     // MODIFIES: this
     // EFFECTS: constructs the GUI and initializes components
     public TennisGUI() {
@@ -31,71 +30,66 @@ public class TennisGUI extends JFrame implements ActionListener {
         tennisData = new TennisData();
         jsonReader = new JsonReader(JSON_STORE);
         jsonWriter = new JsonWriter(JSON_STORE);
-        
         setupMenuBar();
         setupMainPanel();
         setupWindow();
-        
         promptLoadOnStart();
     }
 
-    // REQUIRES: none
     // MODIFIES: this
     // EFFECTS: sets up the menu bar with File menu
     private void setupMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        
+
         JMenuItem loadItem = new JMenuItem("Load");
         loadItem.setActionCommand("load");
         loadItem.addActionListener(this);
-        
+
         JMenuItem saveItem = new JMenuItem("Save");
         saveItem.setActionCommand("save");
         saveItem.addActionListener(this);
-        
+
         JMenuItem quitItem = new JMenuItem("Quit");
         quitItem.setActionCommand("quit");
         quitItem.addActionListener(this);
-        
+
         fileMenu.add(loadItem);
         fileMenu.add(saveItem);
         fileMenu.addSeparator();
         fileMenu.add(quitItem);
-        
+
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
     }
 
-    // REQUIRES: none
     // MODIFIES: this
     // EFFECTS: sets up the main panel with components
     private void setupMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        
+
         matchListPanel = new MatchListPanel(tennisData);
         statsPanel = new StatsPanel(tennisData);
-        
+
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton addMatchBtn = new JButton("Add Match");
         addMatchBtn.setActionCommand("addMatch");
         addMatchBtn.addActionListener(this);
-        
+
         JButton viewPlayerBtn = new JButton("View Matches for Player");
         viewPlayerBtn.setActionCommand("viewPlayer");
         viewPlayerBtn.addActionListener(this);
-        
+
         buttonPanel.add(addMatchBtn);
         buttonPanel.add(viewPlayerBtn);
-        
+
         mainPanel.add(matchListPanel, BorderLayout.CENTER);
         mainPanel.add(statsPanel, BorderLayout.SOUTH);
         mainPanel.add(buttonPanel, BorderLayout.NORTH);
-        
+
         add(mainPanel);
     }
 
-    // REQUIRES: none
     // MODIFIES: this
     // EFFECTS: sets up window properties
     private void setupWindow() {
@@ -104,45 +98,39 @@ public class TennisGUI extends JFrame implements ActionListener {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-        
     }
 
-    // REQUIRES: none
-    // MODIFIES: none
     // EFFECTS: prompts user to load data on application start
     private void promptLoadOnStart() {
         int option = JOptionPane.showConfirmDialog(this,
                 "Would you like to load your previous data?",
                 "Load Data",
                 JOptionPane.YES_NO_OPTION);
-        
+
         if (option == JOptionPane.YES_OPTION) {
             loadData();
         }
     }
 
-    // REQUIRES: none
-    // MODIFIES: none
     // EFFECTS: prompts user to save data before exiting
     private void promptSaveOnExit() {
         int option = JOptionPane.showConfirmDialog(this,
                 "Would you like to save your matches before quitting?",
                 "Save Data",
                 JOptionPane.YES_NO_OPTION);
-        
+
         if (option == JOptionPane.YES_OPTION) {
             saveData();
         }
         System.exit(0);
     }
 
-    // REQUIRES: none
     // MODIFIES: this
     // EFFECTS: handles action events from buttons and menu items
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-        
+
         if (command.equals("addMatch")) {
             addMatch();
         } else if (command.equals("viewPlayer")) {
@@ -156,97 +144,100 @@ public class TennisGUI extends JFrame implements ActionListener {
         }
     }
 
-    // REQUIRES: none
     // MODIFIES: this
     // EFFECTS: opens dialog to add a new match
     private void addMatch() {
-        final JDialog dialog = new JDialog(this, "Add Match", true);
+        JDialog dialog = new JDialog(this, "Add Match", true);
         dialog.setLayout(new GridLayout(5, 2));
-        
-        final JTextField p1Field = new JTextField();
-        final JTextField p2Field = new JTextField();
-        final JTextField dateField = new JTextField();
-        final JTextField scoreField = new JTextField();
-        
-        dialog.add(new JLabel("Player 1:"));
-        dialog.add(p1Field);
-        dialog.add(new JLabel("Player 2:"));
-        dialog.add(p2Field);
-        dialog.add(new JLabel("Date:"));
-        dialog.add(dateField);
-        dialog.add(new JLabel("Score:"));
-        dialog.add(scoreField);
-        
-        JButton okBtn = new JButton("OK");
-        JButton cancelBtn = new JButton("Cancel");
-        
-        okBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String p1 = p1Field.getText();
-                String p2 = p2Field.getText();
-                String date = dateField.getText();
-                String score = scoreField.getText();
-                
-                if (!p1.isEmpty() && !p2.isEmpty() && !date.isEmpty() && !score.isEmpty()) {
-                    Match match = new Match(p1, p2, date, score, 0, 0, 0);
-                    tennisData.getMatchTracker().addMatch(match);
-                    matchListPanel.refresh();
-                    statsPanel.repaint();
-                    dialog.dispose();
-                    JOptionPane.showMessageDialog(TennisGUI.this, "Match added successfully!");
-                } else {
-                    JOptionPane.showMessageDialog(dialog, "Please fill in all fields.");
-                }
-            }
-        });
-        
-        cancelBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dialog.dispose();
-            }
-        });
-        
-        dialog.add(okBtn);
-        dialog.add(cancelBtn);
+
+        JTextField p1 = new JTextField();
+        JTextField p2 = new JTextField();
+        JTextField date = new JTextField();
+        JTextField score = new JTextField();
+
+        addMatchFields(dialog, p1, p2, date, score);
+        addMatchButtons(dialog, p1, p2, date, score);
+
         dialog.pack();
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
 
-    // REQUIRES: none
-    // MODIFIES: none
+    private void addMatchFields(JDialog d, JTextField p1, JTextField p2, JTextField date, JTextField score) {
+        d.add(new JLabel("Player 1:"));
+        d.add(p1);
+        d.add(new JLabel("Player 2:"));
+        d.add(p2);
+        d.add(new JLabel("Date:"));
+        d.add(date);
+        d.add(new JLabel("Score:"));
+        d.add(score);
+    }
+
+    private void addMatchButtons(JDialog d, JTextField p1, JTextField p2, JTextField date, JTextField score) {
+        JButton ok = new JButton("OK");
+        JButton cancel = new JButton("Cancel");
+
+        ok.addActionListener(e -> handleMatchAdd(d, p1, p2, date, score));
+        cancel.addActionListener(e -> d.dispose());
+
+        d.add(ok);
+        d.add(cancel);
+    }
+
+    private void handleMatchAdd(JDialog d, JTextField p1, JTextField p2, JTextField date, JTextField score) {
+        if (p1.getText().isEmpty() || p2.getText().isEmpty()
+                || date.getText().isEmpty() || score.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(d, "Please fill in all fields.");
+            return;
+        }
+
+        Match match = new Match(p1.getText(), p2.getText(), date.getText(), score.getText(), 0, 0, 0);
+        tennisData.getMatchTracker().addMatch(match);
+        matchListPanel.refresh();
+        statsPanel.repaint();
+        d.dispose();
+        JOptionPane.showMessageDialog(this, "Match added successfully!");
+    }
+
     // EFFECTS: shows dialog to filter matches by player name
     private void viewMatchesForPlayer() {
-        String playerName = JOptionPane.showInputDialog(this, "Enter player name:");
-        
-        if (playerName != null && !playerName.isEmpty()) {
-            StringBuilder matches = new StringBuilder();
-            boolean found = false;
-            
-            for (Match m : tennisData.getMatchTracker().getAllMatches()) {
-                if (m.getPlayer1Name().equalsIgnoreCase(playerName)
-                        || m.getPlayer2Name().equalsIgnoreCase(playerName)) {
-                    matches.append(m.getDate()).append(": ")
-                           .append(m.getPlayer1Name()).append(" vs ")
-                           .append(m.getPlayer2Name()).append(" (")
-                           .append(m.getScore()).append(")\n");
-                    found = true;
-                }
-            }
-            
-            if (found) {
-                JTextArea textArea = new JTextArea(matches.toString());
-                textArea.setEditable(false);
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                scrollPane.setPreferredSize(new Dimension(400, 300));
-                JOptionPane.showMessageDialog(this, scrollPane,
-                        "Matches for " + playerName, JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "No matches found for " + playerName);
+        String name = JOptionPane.showInputDialog(this, "Enter player name:");
+        if (name == null || name.isEmpty()) {
+            return;
+        }
+
+        String list = buildPlayerMatchList(name);
+        if (list.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No matches found for " + name);
+            return;
+        }
+
+        showPlayerMatches(name, list);
+    }
+
+    private String buildPlayerMatchList(String name) {
+        StringBuilder sb = new StringBuilder();
+        for (Match m : tennisData.getMatchTracker().getAllMatches()) {
+            if (m.getPlayer1Name().equalsIgnoreCase(name)
+                    || m.getPlayer2Name().equalsIgnoreCase(name)) {
+                sb.append(m.getDate()).append(": ")
+                  .append(m.getPlayer1Name()).append(" vs ")
+                  .append(m.getPlayer2Name())
+                  .append(" (").append(m.getScore()).append(")\n");
             }
         }
+        return sb.toString();
+    }
+
+    private void showPlayerMatches(String name, String text) {
+        JTextArea area = new JTextArea(text);
+        area.setEditable(false);
+        JScrollPane pane = new JScrollPane(area);
+        pane.setPreferredSize(new Dimension(400, 300));
+
+        JOptionPane.showMessageDialog(this, pane,
+                "Matches for " + name, JOptionPane.INFORMATION_MESSAGE);
     }
 
     // REQUIRES: jsonReader is initialized
@@ -279,12 +270,9 @@ public class TennisGUI extends JFrame implements ActionListener {
         }
     }
 
-    // REQUIRES: none
-    // MODIFIES: none
     // EFFECTS: starts the GUI application
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-            
             public void run() {
                 new TennisGUI();
             }
