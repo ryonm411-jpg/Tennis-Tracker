@@ -163,7 +163,6 @@ public class TennisGUI extends JFrame implements ActionListener {
         dialog.setVisible(true);
     }
 
-
     // REQUIRES: d is not null
     // MODIFIES: d
     // EFFECTS: adds input fields to the dialog
@@ -178,33 +177,30 @@ public class TennisGUI extends JFrame implements ActionListener {
         d.add(score);
     }
 
-
     // REQUIRES: d is not null
-// MODIFIES: d
-// EFFECTS: adds OK and Cancel buttons with listeners to the dialog
-private void addMatchButtons(JDialog d, JTextField p1, JTextField p2, JTextField date, JTextField score) {
-    JButton ok = new JButton("OK");
-    JButton cancel = new JButton("Cancel");
+    // MODIFIES: d
+    // EFFECTS: adds OK and Cancel buttons with listeners to the dialog
+    private void addMatchButtons(JDialog d, JTextField p1, JTextField p2, JTextField date, JTextField score) {
+        JButton ok = new JButton("OK");
+        JButton cancel = new JButton("Cancel");
 
-    ok.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            handleMatchAdd(d, p1, p2, date, score);
-        }
-    });
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleMatchAdd(d, p1, p2, date, score);
+            }
+        });
 
-    cancel.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            d.dispose();
-        }
-    });
+        cancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                d.dispose();
+            }
+        });
 
-    d.add(ok);
-    d.add(cancel);
-}
-
-
+        d.add(ok);
+        d.add(cancel);
+    }
 
     // REQUIRES: d is not null
     // MODIFIES: this, d
@@ -240,23 +236,21 @@ private void addMatchButtons(JDialog d, JTextField p1, JTextField p2, JTextField
         showPlayerMatches(name, list);
     }
 
-
     // REQUIRES: name is not null
     // EFFECTS: builds and returns formatted list of matches for the player
     private String buildPlayerMatchList(String name) {
-    String result = "";
-    for (Match m : tennisData.getMatchTracker().getAllMatches()) {
-        if (m.getPlayer1Name().equalsIgnoreCase(name)
-                || m.getPlayer2Name().equalsIgnoreCase(name)) {
-            result += m.getDate() + ": "
-                    + m.getPlayer1Name() + " vs "
-                    + m.getPlayer2Name()
-                    + " (" + m.getScore() + ")\n";
+        String result = "";
+        for (Match m : tennisData.getMatchTracker().getAllMatches()) {
+            if (m.getPlayer1Name().equalsIgnoreCase(name)
+                    || m.getPlayer2Name().equalsIgnoreCase(name)) {
+                result += m.getDate() + ": "
+                        + m.getPlayer1Name() + " vs "
+                        + m.getPlayer2Name()
+                        + " (" + m.getScore() + ")\n";
+            }
         }
+        return result;
     }
-    return result;
-}
-
 
     // REQUIRES: name and text are not null
     // MODIFIES: this
