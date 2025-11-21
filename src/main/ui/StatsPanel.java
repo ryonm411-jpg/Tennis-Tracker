@@ -116,7 +116,7 @@ public class StatsPanel extends JPanel {
 
     // EFFECTS: draws player label + count label
     private void drawBarLabels(Graphics g, String player, int count,
-                               int x, int baseline, int width, int height) {
+            int x, int baseline, int width, int height) {
         g.setFont(new Font("Arial", Font.PLAIN, 10));
         g.setColor(Color.BLACK);
 

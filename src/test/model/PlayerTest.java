@@ -66,5 +66,4 @@ public class PlayerTest {
         assertEquals(0.5, player.getWinPercentage());
     }
 
-
 }

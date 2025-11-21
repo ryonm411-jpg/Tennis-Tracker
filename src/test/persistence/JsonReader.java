@@ -44,10 +44,10 @@ public class JsonReader {
     private TennisData parseTennisData(JSONObject jsonObject) {
         TennisData td = new TennisData();
 
-        if (jsonObject.has("players")) {          
+        if (jsonObject.has("players")) {
             addPlayers(td, jsonObject);
         }
-        if (jsonObject.has("matches")) {          
+        if (jsonObject.has("matches")) {
             addMatches(td, jsonObject);
         }
 
@@ -70,11 +70,12 @@ public class JsonReader {
         String name = jsonObject.getString("name");
         int wins = jsonObject.getInt("wins");
         int losses = jsonObject.getInt("losses");
-        td.addPlayer(new Player(name, wins, losses));     
+        td.addPlayer(new Player(name, wins, losses));
     }
 
     // MODIFIES: td
-    // EFFECTS: parses matches from JSON object and adds Match to TennisData's MatchTracker
+    // EFFECTS: parses matches from JSON object and adds Match to TennisData's
+    // MatchTracker
     private void addMatches(TennisData td, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("matches");
         for (Object json : jsonArray) {

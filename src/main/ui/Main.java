@@ -1,8 +1,17 @@
 package ui;
 
+import javax.swing.SwingUtilities;
+
 public class Main {
-    public static void main(String[] args) throws Exception {
-        new TennisApp().runApp();
-        System.out.println("Welcome to my project!");
+    // REQUIRES: args is not null
+    // MODIFIES: none
+    // EFFECTS: starts the GUI application
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            public void run() {
+                new TennisGUI();
+            }
+        });
     }
 }

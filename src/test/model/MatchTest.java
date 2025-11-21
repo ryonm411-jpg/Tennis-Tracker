@@ -42,5 +42,4 @@ public class MatchTest {
         assertEquals(2, match.getUnforcedErrors());
     }
 
-
 }

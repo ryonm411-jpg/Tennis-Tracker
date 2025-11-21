@@ -29,7 +29,7 @@ public class MatchTrackerTest {
         assertEquals(1, tracker.getMatchCount());
         assertTrue(tracker.getAllMatches().contains(match));
     }
-    
+
     @Test
     public void testMultipleMatchesAdded() {
         Match m2 = new Match("Roger", "Nadal", "2025/10/03", "6-2, 6-1", 2, 0, 1);

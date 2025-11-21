@@ -4,14 +4,12 @@ import org.json.JSONObject;
 
 import persistence.Writable;
 
-
-
 // Represents a tennis player
 public class Player implements Writable {
     private final String name;
     private int wins;
     private int losses;
-    
+
     @Override
     // EFFECTS: returns the JSON representation of the player
     public JSONObject toJson() {
@@ -67,7 +65,5 @@ public class Player implements Writable {
     public int getLosses() {
         return losses;
     }
-
-   
 
 }

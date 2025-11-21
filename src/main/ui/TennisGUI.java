@@ -163,6 +163,10 @@ public class TennisGUI extends JFrame implements ActionListener {
         dialog.setVisible(true);
     }
 
+
+    // REQUIRES: d is not null
+    // MODIFIES: d
+    // EFFECTS: adds input fields to the dialog
     private void addMatchFields(JDialog d, JTextField p1, JTextField p2, JTextField date, JTextField score) {
         d.add(new JLabel("Player 1:"));
         d.add(p1);
@@ -174,17 +178,37 @@ public class TennisGUI extends JFrame implements ActionListener {
         d.add(score);
     }
 
-    private void addMatchButtons(JDialog d, JTextField p1, JTextField p2, JTextField date, JTextField score) {
-        JButton ok = new JButton("OK");
-        JButton cancel = new JButton("Cancel");
 
-        ok.addActionListener(e -> handleMatchAdd(d, p1, p2, date, score));
-        cancel.addActionListener(e -> d.dispose());
+    // REQUIRES: d is not null
+// MODIFIES: d
+// EFFECTS: adds OK and Cancel buttons with listeners to the dialog
+private void addMatchButtons(JDialog d, JTextField p1, JTextField p2, JTextField date, JTextField score) {
+    JButton ok = new JButton("OK");
+    JButton cancel = new JButton("Cancel");
 
-        d.add(ok);
-        d.add(cancel);
-    }
+    ok.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            handleMatchAdd(d, p1, p2, date, score);
+        }
+    });
 
+    cancel.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            d.dispose();
+        }
+    });
+
+    d.add(ok);
+    d.add(cancel);
+}
+
+
+
+    // REQUIRES: d is not null
+    // MODIFIES: this, d
+    // EFFECTS: validates fields, adds match to tennisData and updates UI if valid
     private void handleMatchAdd(JDialog d, JTextField p1, JTextField p2, JTextField date, JTextField score) {
         if (p1.getText().isEmpty() || p2.getText().isEmpty()
                 || date.getText().isEmpty() || score.getText().isEmpty()) {
@@ -216,20 +240,27 @@ public class TennisGUI extends JFrame implements ActionListener {
         showPlayerMatches(name, list);
     }
 
-    private String buildPlayerMatchList(String name) {
-        StringBuilder sb = new StringBuilder();
-        for (Match m : tennisData.getMatchTracker().getAllMatches()) {
-            if (m.getPlayer1Name().equalsIgnoreCase(name)
-                    || m.getPlayer2Name().equalsIgnoreCase(name)) {
-                sb.append(m.getDate()).append(": ")
-                  .append(m.getPlayer1Name()).append(" vs ")
-                  .append(m.getPlayer2Name())
-                  .append(" (").append(m.getScore()).append(")\n");
-            }
-        }
-        return sb.toString();
-    }
 
+    // REQUIRES: name is not null
+    // EFFECTS: builds and returns formatted list of matches for the player
+    private String buildPlayerMatchList(String name) {
+    String result = "";
+    for (Match m : tennisData.getMatchTracker().getAllMatches()) {
+        if (m.getPlayer1Name().equalsIgnoreCase(name)
+                || m.getPlayer2Name().equalsIgnoreCase(name)) {
+            result += m.getDate() + ": "
+                    + m.getPlayer1Name() + " vs "
+                    + m.getPlayer2Name()
+                    + " (" + m.getScore() + ")\n";
+        }
+    }
+    return result;
+}
+
+
+    // REQUIRES: name and text are not null
+    // MODIFIES: this
+    // EFFECTS: shows the provided match text in a dialog
     private void showPlayerMatches(String name, String text) {
         JTextArea area = new JTextArea(text);
         area.setEditable(false);

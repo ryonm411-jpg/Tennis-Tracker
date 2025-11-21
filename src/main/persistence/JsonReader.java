@@ -68,7 +68,8 @@ public class JsonReader {
     }
 
     // MODIFIES: td
-    // EFFECTS: parses matches from JSON object and adds them to TennisData’s MatchTracker
+    // EFFECTS: parses matches from JSON object and adds them to TennisData’s
+    // MatchTracker
     private void addMatches(TennisData td, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("matches");
         for (Object json : jsonArray) {

@@ -3,7 +3,7 @@ package persistence;
 import org.json.JSONObject;
 
 import model.TennisData;
-import java.io.*; 
+import java.io.*;
 
 // Represents a writer that saves tennis data to JSON file
 public class JsonWriter {
@@ -17,7 +17,8 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: opens writer; throws FileNotFoundException if destination file cannot
+    // EFFECTS: opens writer; throws FileNotFoundException if destination file
+    // cannot
     // be opened for writing
     public void open() throws FileNotFoundException {
         writer = new PrintWriter(new File(destination));
@@ -36,7 +37,7 @@ public class JsonWriter {
         writer.close();
     }
 
-   // MODIFIES: this
+    // MODIFIES: this
     // EFFECTS: writes string to file
     private void saveToFile(String json) {
         writer.print(json);

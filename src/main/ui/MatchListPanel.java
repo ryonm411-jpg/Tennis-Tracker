@@ -22,19 +22,18 @@ public class MatchListPanel extends JPanel {
         this.tennisData = tennisData;
         setBorder(new TitledBorder("All Matches"));
         setLayout(new BorderLayout());
-        
+
         listModel = new DefaultListModel<>();
         matchList = new JList<>(listModel);
         matchList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+
         JScrollPane scrollPane = new JScrollPane(matchList);
         scrollPane.setPreferredSize(new Dimension(400, 300));
-        
+
         add(scrollPane, BorderLayout.CENTER);
         refresh();
     }
 
-    
     // MODIFIES: this
     // EFFECTS: updates the display with current matches
     public void refresh() {
@@ -53,6 +52,3 @@ public class MatchListPanel extends JPanel {
         this.tennisData = tennisData;
     }
 }
-
-
-

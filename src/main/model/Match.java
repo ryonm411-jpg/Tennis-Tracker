@@ -43,8 +43,6 @@ public class Match implements Writable {
         return json;
     }
 
-    
-
     public String getPlayer1Name() {
         return player1;
     }
