@@ -69,7 +69,8 @@ public class TennisApp {
     // EFFECTS: processes the user's menu choice
     private boolean processUserChoice() {
         int choice = input.nextInt();
-        input.nextLine(); // clear leftover newline
+        input.nextLine(); 
+
 
         if (choice == 1) {
             addMatch();
