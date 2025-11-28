@@ -2,6 +2,8 @@ package ui;
 
 import model.Match;
 import model.TennisData;
+import model.Event;
+import model.EventLog;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -9,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -93,7 +97,14 @@ public class TennisGUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: sets up window properties
     private void setupWindow() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printLog();
+                System.exit(0);
+            }
+        });
         setPreferredSize(new Dimension(800, 600));
         pack();
         setLocationRelativeTo(null);
@@ -122,6 +133,7 @@ public class TennisGUI extends JFrame implements ActionListener {
         if (option == JOptionPane.YES_OPTION) {
             saveData();
         }
+        printLog();
         System.exit(0);
     }
 
@@ -292,6 +304,16 @@ public class TennisGUI extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "Saved matches to " + JSON_STORE);
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(this, "Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // EFFECTS: prints all events in the event log to console
+    private void printLog() {
+        System.out.println("\nEvent Log:");
+        System.out.println("====================");
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.toString());
+            System.out.println();
         }
     }
 
