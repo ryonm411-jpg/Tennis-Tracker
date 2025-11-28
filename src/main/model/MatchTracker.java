@@ -17,7 +17,10 @@ public class MatchTracker {
 
     public void addMatch(Match match) {
         matches.add(match);
+        EventLog.getInstance().logEvent(new Event("Match added: "
+                + match.getPlayer1Name() + " vs " + match.getPlayer2Name()));
     }
+
 
     // EFFECTS: return a list of all matches
     public List<Match> getAllMatches() {

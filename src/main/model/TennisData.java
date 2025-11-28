@@ -29,8 +29,10 @@ public class TennisData implements Writable {
     // EFFECTS: adds player to this tennisdata
     public void addPlayer(Player player) {
         players.add(player);
+        EventLog.getInstance().logEvent(new Event("Player added: " + player.getName()));
     }
 
+    
     public List<Player> getPlayers() {
         return players;
     }

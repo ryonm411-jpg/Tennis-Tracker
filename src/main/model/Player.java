@@ -34,16 +34,20 @@ public class Player implements Writable {
 
     public void addWin() {
         wins++;
+        EventLog.getInstance().logEvent(new Event("Win added for player: " + name));
 
     }
+
 
     // MODIFIES: this
     // EFFECTS: increments player Loss count by 1
 
     public void addLoss() {
         losses++;
+        EventLog.getInstance().logEvent(new Event("Loss added for player: " + name));
 
     }
+
 
     // EFFECTS: returns players win percentage
     public double getWinPercentage() {

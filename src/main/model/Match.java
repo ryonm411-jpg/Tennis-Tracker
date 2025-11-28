@@ -74,14 +74,20 @@ public class Match implements Writable {
     // setters
     public void setAces(int aces) {
         this.aces = aces;
+        EventLog.getInstance().logEvent(new Event("Aces updated to " + aces
+                + " for match: " + player1 + " vs " + player2));
     }
 
     public void setDoubleFaults(int doubleFaults) {
         this.doubleFaults = doubleFaults;
+        EventLog.getInstance().logEvent(new Event("Double faults updated to " + doubleFaults
+                + " for match: " + player1 + " vs " + player2));
     }
 
     public void setUnforcedErrors(int unforcedErrors) {
         this.unforcedErrors = unforcedErrors;
+        EventLog.getInstance().logEvent(new Event("Unforced errors updated to " + unforcedErrors
+                + " for match: " + player1 + " vs " + player2));
     }
 
 }
