@@ -43,8 +43,12 @@ public class JsonReader {
     // EFFECTS: parses TennisData from JSON object and returns it
     private TennisData parseTennisData(JSONObject jsonObject) {
         TennisData td = new TennisData();
-        addPlayers(td, jsonObject);
-        addMatches(td, jsonObject);
+        if (jsonObject.has("players")) {
+            addPlayers(td, jsonObject);
+        }
+        if (jsonObject.has("matches")) {
+            addMatches(td, jsonObject);
+        }
         return td;
     }
 
