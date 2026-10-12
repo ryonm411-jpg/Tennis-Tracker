@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 /**
- * Represents an alarm system event.
+ * Represents a change to the tennis data, recorded in the EventLog.
  */
 public class Event {
     private static final int HASH_CONSTANT = 13;

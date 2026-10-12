@@ -1,75 +1,55 @@
-  
-
 # Tennis Match Tracker
-_A personal prject for CPSC 210_
 
-The **Tennis Match Tracker** is a desktop application that allows players to record and analyze their tennis matches.
+A Java desktop application for recording tennis matches and reviewing match history.
 
-Users will be able to log details of their tennis such as:
-- Dates
-- Scores
-- Oponents
-- Stats(e.g, aces, double daults, unforced errors)
+<!-- TODO: add screenshot, e.g. ![Tennis Match Tracker](docs/screenshot.png) -->
 
-## Intended Users
-- Tennis players of all levels who want to keep track of their matches
-- Coaches who want to monitor student performances
-- Anyone interested in analyzing someones match history to identify strengths/weaknesses
+## Features
 
-## Why I chose this project
-I am personally interested in **tennis** I think I would find it motivating to design a tool that I could actually use and benefit from.
+- **Record matches**: log the players, date and score of each match.
+- **Browse history**: view every recorded match, or filter to the matches of a single player.
+- **Visualise activity**: a bar chart shows how many matches each player has played.
+- **Save and load**: persist all data to a JSON file and pick up where you left off.
+- **Event log**: every change to the data is logged and printed when the app closes.
 
+## Getting started
 
-## User Stories
+Requirements: JDK 21. The two dependencies (org.json and the JUnit 5 console launcher) are in `lib/`.
 
-- As a user, I want to be able to add a tennis match to my tracker and specify the players, date, score.
-- As a user, I want to be able to view a list of all the matches that I have recorded
-- As a user, I want to be able to add statistics to a match, such as aces, double faults, unforced errors, etc...
-- As a user, I want to be able to be able to view player performaces, such as thier total wins/losses, thier win percentage.
+Build and run (macOS/Linux; on Windows replace `:` with `;` in the classpath):
 
-## User Stories for Phase 2
-- As a user, I want to be able to save all recorded tennis matches and player data to a JSON file, inorder to keep track of them after I close the application
-- AS a user, I want to be able to load prev saved matches and player data from a JSON file so I can continue from where I left off.
-
-## Phase 4: Task 2
-
-Sample event log output when running the application:
-
-```
-Event Log:
-====================
-Fri Nov 28 01:08:41 PST 2025
-Match added: m vs j
-
-Fri Nov 28 01:08:41 PST 2025
-Match added: Ryon vs Jeff
-
-Fri Nov 28 01:08:41 PST 2025
-Match added: joe vs schmoe
-
-Fri Nov 28 01:08:41 PST 2025
-Match added: k vs may
-
-Fri Nov 28 01:08:41 PST 2025
-Match added: Ryon vs schmoe
-
-Fri Nov 28 01:08:41 PST 2025
-Match added: Bily vs Hoe
-
+```sh
+javac -d out -cp "lib/*" $(find src -name "*.java")
+java -cp "out:lib/json-20250517.jar" ui.Main
 ```
 
-The event log captures all significant model changes including:
-- Adding matches to the match tracker
-- Updating match statistics (aces, double faults, unforced errors)
-- Adding players to the tennis data
-- Recording wins and losses for players
+Run the tests:
 
-All events are logged in the model package and printed to the console when the application is closed.
+```sh
+java -jar lib/junit-platform-console-standalone-1.10.2.jar execute \
+  -cp "out:lib/json-20250517.jar" --scan-class-path
+```
 
-## Phase 4: Task 3
+## Design
 
-**Design Reflection:**
+The code is split into three packages:
 
-If I had more time, I’d refactor the UI to use the Observer design pattern. Right now, whenever something in the model changes—like adding a match or updating player stats—the UI panels (MatchListPanel and StatsPanel) only update if TennisGUI manually calls refresh() or repaint(). This means the GUI controller ends up tightly linked to the UI panels, which makes the code harder to maintain.
+| Package       | Responsibility |
+|---------------|----------------|
+| `model`       | Domain classes: `Match`, `Player`, `MatchTracker`, `TennisData`, plus the `EventLog` |
+| `persistence` | JSON serialisation (`JsonReader`, `JsonWriter`, `Writable`) |
+| `ui`          | Swing interface: `TennisGUI`, `MatchListPanel`, `StatsPanel` |
 
-Using the Observer pattern, the data classes (TennisData, MatchTracker, maybe even Match) would act as subjects that notify their observers whenever something changes. The UI panels would register themselves as observers and update automatically whenever they get a notification. This removes the need for manual refresh calls, loosens the coupling between components, and makes it much easier to add new UI panels in the future. It would also fit naturally with the event-logging system already in place, since the same actions that produce events could also trigger observer updates.
+`EventLog` is a Singleton, so every model class writes to the same log. See the [UML class diagram](UML_Design_Diagram.pdf) for the full structure.
+
+## Next steps
+
+- **Observer pattern.** The UI panels currently refresh only when `TennisGUI` calls `refresh()` or `repaint()` on them, which couples the controller to every panel. Making the model the subject and the panels (and the event log) its observers would remove those manual calls and let new views be added without touching the controller.
+- **Owner-centred model.** Record each match from one player's perspective with an explicit win/loss result, and derive win/loss records from match results instead of storing them separately.
+- **Match stats.** The model stores aces, double faults and unforced errors, but the GUI does not yet let you enter them; add them to the add-match form.
+- **Input validation.** Parse dates as `LocalDate` and validate score formats.
+- **Build tooling.** Gradle build and continuous integration.
+
+## Credits
+
+Built as a personal project for UBC's CPSC 210 (Software Construction). `Event`, `EventLog`, `JsonReader`, `JsonWriter` and `Writable` are adapted from the CPSC 210 sample projects (AlarmSystem and JsonSerializationDemo).
