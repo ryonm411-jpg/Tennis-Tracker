@@ -6,12 +6,17 @@ import model.Player;
 import model.TennisData;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonWriterTest extends JsonTest {
+
+    @TempDir
+    Path tempDir;
 
     @Test
     void testWriterInvalidFile() {
@@ -27,13 +32,14 @@ public class JsonWriterTest extends JsonTest {
     @Test
     void testWriterEmptyTennisData() {
         try {
+            String file = tempDir.resolve("testWriterEmptyTennisData.json").toString();
             TennisData td = new TennisData();
-            JsonWriter writer = new JsonWriter("./data/testWriterEmptyTennisData.json");
+            JsonWriter writer = new JsonWriter(file);
             writer.open();
             writer.write(td);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterEmptyTennisData.json");
+            JsonReader reader = new JsonReader(file);
             TennisData tdRead = reader.read();
             assertEquals(0, tdRead.getPlayers().size());
             assertEquals(0, tdRead.getMatchTracker().getMatchCount());
@@ -45,18 +51,19 @@ public class JsonWriterTest extends JsonTest {
     @Test
     void testWriterGeneralTennisData() {
         try {
+            String file = tempDir.resolve("testWriterGeneralTennisData.json").toString();
             TennisData td = new TennisData();
             td.getPlayers().add(new Player("Ryon", 3, 1));
             td.getPlayers().add(new Player("Jeff", 2, 2));
             td.getMatchTracker().addMatch(
                     new Match("Ryon", "Jeff", "2025/10/01", "6-4, 6-3", 5, 2, 1));
 
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralTennisData.json");
+            JsonWriter writer = new JsonWriter(file);
             writer.open();
             writer.write(td);
             writer.close();
 
-            TennisData tdRead = new JsonReader("./data/testWriterGeneralTennisData.json").read();
+            TennisData tdRead = new JsonReader(file).read();
             assertEquals(2, tdRead.getPlayers().size());
             assertEquals("Ryon", tdRead.getPlayers().get(0).getName());
             Match m = tdRead.getMatchTracker().getAllMatches().get(0);

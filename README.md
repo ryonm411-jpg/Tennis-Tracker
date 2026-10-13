@@ -14,20 +14,12 @@ A Java desktop application for recording tennis matches and reviewing match hist
 
 ## Getting started
 
-Requirements: JDK 21. The two dependencies (org.json and the JUnit 5 console launcher) are in `lib/`.
-
-Build and run (macOS/Linux; on Windows replace `:` with `;` in the classpath):
+Requirements: JDK 21. Gradle and all dependencies are fetched automatically by the wrapper.
 
 ```sh
-javac -d out -cp "lib/*" $(find src -name "*.java")
-java -cp "out:lib/json-20250517.jar" ui.Main
-```
-
-Run the tests:
-
-```sh
-java -jar lib/junit-platform-console-standalone-1.10.2.jar execute \
-  -cp "out:lib/json-20250517.jar" --scan-class-path
+./gradlew run     # launch the app (use gradlew.bat on Windows cmd/PowerShell)
+./gradlew test    # run the unit tests
+./gradlew check   # run the tests and Checkstyle
 ```
 
 ## Design
