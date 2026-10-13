@@ -1,5 +1,7 @@
 # Tennis Match Tracker
 
+[![CI](https://github.com/ryonm411-jpg/Tennis-Tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/ryonm411-jpg/Tennis-Tracker/actions/workflows/ci.yml)
+
 A Java desktop application for recording tennis matches and reviewing match history.
 
 <!-- TODO: add screenshot, e.g. ![Tennis Match Tracker](docs/screenshot.png) -->
@@ -40,7 +42,6 @@ The code is split into three packages:
 - **Owner-centred model.** Record each match from one player's perspective with an explicit win/loss result, and derive win/loss records from match results instead of storing them separately.
 - **Match stats.** The model stores aces, double faults and unforced errors, but the GUI does not yet let you enter them; add them to the add-match form.
 - **Input validation.** Parse dates as `LocalDate` and validate score formats.
-- **Build tooling.** Gradle build and continuous integration.
 
 ## Credits
 
